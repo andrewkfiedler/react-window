@@ -42,7 +42,7 @@ type ItemStyleCache = { [index: number]: Object };
 type OuterProps = {|
   children: React$Node,
   className: string | void,
-  onScroll: ScrollEvent => void,
+  onScroll: (ScrollEvent) => void,
   style: {
     [string]: mixed,
   },
@@ -199,7 +199,7 @@ export default function createListComponent({
     scrollTo(scrollOffset: number): void {
       scrollOffset = Math.max(0, scrollOffset);
 
-      this.setState(prevState => {
+      this.setState((prevState) => {
         if (prevState.scrollOffset === scrollOffset) {
           return null;
         }
@@ -506,14 +506,8 @@ export default function createListComponent({
 
       // Overscan by one item in each direction so that tab/focus works.
       // If there isn't at least one extra item, tab loops back around.
-      const overscanBackward =
-        !isScrolling || scrollDirection === 'backward'
-          ? Math.max(1, overscanCount)
-          : 1;
-      const overscanForward =
-        !isScrolling || scrollDirection === 'forward'
-          ? Math.max(1, overscanCount)
-          : 1;
+      const overscanBackward = Math.max(1, overscanCount);
+      const overscanForward = Math.max(1, overscanCount);
 
       return [
         Math.max(0, startIndex - overscanBackward),
@@ -525,7 +519,7 @@ export default function createListComponent({
 
     _onScrollHorizontal = (event: ScrollEvent): void => {
       const { clientWidth, scrollLeft, scrollWidth } = event.currentTarget;
-      this.setState(prevState => {
+      this.setState((prevState) => {
         if (prevState.scrollOffset === scrollLeft) {
           // Scroll position may have been updated by cDM/cDU,
           // In which case we don't need to trigger another render,
@@ -569,7 +563,7 @@ export default function createListComponent({
 
     _onScrollVertical = (event: ScrollEvent): void => {
       const { clientHeight, scrollHeight, scrollTop } = event.currentTarget;
-      this.setState(prevState => {
+      this.setState((prevState) => {
         if (prevState.scrollOffset === scrollTop) {
           // Scroll position may have been updated by cDM/cDU,
           // In which case we don't need to trigger another render,
